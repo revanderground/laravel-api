@@ -22,4 +22,12 @@ Route::namespace('Api')->group(function(){
     Route::get('/posts', 'PostController@index');
     Route::get('/posts/{id}', 'PostController@show');
     Route::middleware('auth:api')->delete('/posts/{id}', 'PostController@destroy');
+
+    Route::get('/categories', 'CategoryController@index');
+    Route::get('/categories/{id}', 'CategoryController@show');
+
 });
+
+Route::get("(any?)", function(){
+    return view("guest.home");
+})->where("any", ".*");

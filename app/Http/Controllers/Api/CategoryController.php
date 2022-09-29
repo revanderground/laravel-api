@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,14 +15,14 @@ class PostController extends Controller
      */
     public function index()
     {
-        // $posts= Post::with('user')->get();
-        $posts= Post::with('user')->paginate(10);
+        //  $categories= Category::with('posts')->get();
+        $categories= Category::with('posts')->paginate(5);
 
         return response()->json([
             "response" => true,
-            "count" => count($posts),
+            "count" => count($categories),
             "results" => [
-                "data" =>$posts
+                "data" =>$categories
             ]
         ]);
     }
@@ -56,19 +56,16 @@ class PostController extends Controller
      */
     public function show($id)
     {
+        //  $post = Post::find($id);
+        $category = Category::with('posts')->find($id);
 
-        // $post = Post::find($id);
-        $post = Post::with('user')->find($id);
-
-        if ($post) return response()->json([
+        if ($category) return response()->json([
             "response" => true,
             "results" => [
-                "data" => $post
+                "data" => $category
             ]]);
 
         else return response('', 404);
-
-
     }
 
     /**
@@ -102,8 +99,6 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        Post::destroy($id);
-
-        return response('', 204);
+        //
     }
 }
