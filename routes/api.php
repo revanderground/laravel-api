@@ -28,6 +28,3 @@ Route::namespace('Api')->group(function(){
 
 });
 
-Route::get("(any?)", function(){
-    return view("guest.home");
-})->where("any", ".*");
