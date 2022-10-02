@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
-
 class PostController extends Controller
 {
     /**
@@ -21,9 +20,7 @@ class PostController extends Controller
         return response()->json([
             "response" => true,
             "count" => count($posts),
-            "results" => [
-                "data" =>$posts
-            ]
+            "results" => $posts
         ]);
     }
 
@@ -62,9 +59,8 @@ class PostController extends Controller
 
         if ($post) return response()->json([
             "response" => true,
-            "results" => [
-                "data" => $post
-            ]]);
+            "results" => $post
+            ]);
 
         else return response('', 404);
 

@@ -6,7 +6,9 @@
                         Recent posts:
                     </h1>
 
-                    <PostCard />
+                    <div class="posts">
+                        <PostCard v-for="post in posts" :key="post.id" :post="post" />
+                    </div>
 
                 </div>
             </div>
@@ -14,15 +16,45 @@
 </template>
 
 <script>
-import PostCard from './Postcard.vue'
+    import PostCard from './PostCard';
+    import axios from 'axios';
 
-export default {
-    components: {
-        PostCard,
+    export default {
+        components: {
+            PostCard,
+        },
+
+        data: function(){
+            return{
+                posts: [],
+                currentPage : 1,
+                lastPage: null,
+                loading: false,
+            }
+        },
+
+        methods: {
+            getPosts(postsPage = 1){
+                axios.get('/api/posts' , {
+                    page: postsPage,
+                }).then((response) => {
+                    console.log(response.data.results);
+                    this.posts = response.data.results.data;
+                    this.currentPage = response.data.results.current_page;
+                    this.lastPage = response.data.results.last_page;
+                    this.loading = false;
+                }).catch((error) => {
+                    console.error(error);
+                })
+            }
+        },
+
+        created() {
+            this.getPosts();
+        }
     }
-}
-</script>
+    </script>
 
-<style>
+    <style>
 
-</style>
+    </style>
